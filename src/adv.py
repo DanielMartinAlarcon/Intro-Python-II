@@ -79,20 +79,32 @@ print("\nYou see the following items:")
 player.current_room.print_items()
 
 # Initialize input loop
-direction = input("\nWhich direction do you move? (n, s, e, or w) ")
 
-# Input loop that updates the current room using usir inputs. Any input
-# other than the cardinal directions exits the program.
-while direction in ['n', 's', 'e', 'w']:
-    print('-------------------------------')
-    prev_room = player.current_room
-    player.move(direction)
+
+# REPL loop
+while True:
+    command = input("Your move >>> ")
     
-    # Tell the user which way they went, but only if they changed rooms
-    if player.current_room != prev_room:
-        print(f"\nYou move into: {player.current_room.name}\n")
-        print_description(player.current_room.description)
-        print("\nYou see the following items:")
-        player.current_room.print_items()
-    
-    direction = input("\nWhich direction do you move? (n, s, e, or w) ")
+    if command == 'q':
+        print("Thank you for playing")
+        break
+
+    elif command in ['n', 's', 'e', 'w']:
+        print('-------------------------------')
+        prev_room = player.current_room
+        player.move(command)
+        
+        # Tell the user which way they went, but only if they changed rooms
+        if player.current_room != prev_room:
+            print(f"\nYou move into: {player.current_room.name}\n")
+            print_description(player.current_room.description)
+            print("\nYou see the following items:")
+            player.current_room.print_items()
+
+    else:
+        print("""
+Invalid command.  Try one of these:
+Directions: n, s, e, w
+Actions: get [item in room], drop [item in player inventory]
+Exit the game: q
+""")
