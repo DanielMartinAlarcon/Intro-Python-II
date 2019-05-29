@@ -49,3 +49,36 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+import sys
+from player import Player
+import textwrap 
+
+# Initialize the current room
+player = Player(room['outside'])
+print("\n<< Welcome to The Adventure Game. >>\n")
+print('Enter cardinal directions to move, or "q" to exit the game.')
+print(f"\nCurrent location: {player.current_room.name}.\n")
+
+# Printing function for long descriptions, with text wrapping
+def print_description(desc):
+    wrapper = textwrap.TextWrapper(width=50) 
+    word_list = wrapper.wrap(text=desc) 
+    for element in word_list: 
+        print(element) 
+
+# Initialize input loop
+direction = input("Which direction do you move? (n, s, e, or w) ")
+
+# Loop that updates the current room using usir inputs. Any input
+# other than the cardinal directions exits the program.
+while direction in ['n', 's', 'e', 'w']:
+    print('-------------------------------')
+    prev_room = player.current_room
+    player.move(direction)
+    
+    # Tell the user which way they went, but only if they changed rooms
+    if player.current_room != prev_room:
+        print(f"\nYou move into: {player.current_room.name}\n")
+        print_description(player.current_room.description)
+    
+    direction = input("\nWhich direction do you move? (n, s, e, or w) ")
