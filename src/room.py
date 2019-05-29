@@ -14,6 +14,9 @@ class Room:
     def add_item(self, item):
         self.inventory.append(item)
 
+    def drop_item(self, item):
+        self.inventory.remove(item)
+
     def print_items(self):
         if len(self.inventory) == 0:
             print('[Nothing]\n')

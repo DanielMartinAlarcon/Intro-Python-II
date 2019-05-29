@@ -15,7 +15,7 @@ class Player:
             'w': self.current_room.w_to}
 
             if room_map[direction] is None:
-                print('There is nothing in that direction.')
+                print('There is nothing in that direction.\n')
             else: 
                 self.current_room = room_map[direction]
 
@@ -23,9 +23,13 @@ class Player:
     def add_item(self, item):
         self.inventory.append(item)
 
+    def drop_item(self, item):
+        self.inventory.remove(item)
+
     def print_items(self):
         if len(self.inventory) == 0:
             print('[Nothing]\n')
         else: 
             for item in self.inventory:
                 print(f"{item.name}: {item.description}")
+            print()

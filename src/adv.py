@@ -77,10 +77,11 @@ print(f"\nWelcome, {name}")
 print(f"\nCurrent location: {player.current_room.name}.")
 print("\nYou see the following items:")
 player.current_room.print_items()
+player.add_item(Item("sword","Nothing fancy, but it's sharp."))
 
 # REPL loop
 while True:
-    command = input("Your move >>> ")
+    command = input("----------------------- Your move >>> ")
     
     # Quit
     if command == 'q':
@@ -89,7 +90,6 @@ while True:
 
     # Move
     elif command in ['n', 's', 'e', 'w']:
-        print('-------------------------------')
         prev_room = player.current_room
         player.move(command)
         
@@ -107,7 +107,11 @@ while True:
 
 
     # Get command
-    # [TODO]
+    elif command.split(' ')[0] == 'get':
+        item_name = command.split(' ')[1]
+        room_items = [item.name for item in player.current_room.inventory]
+        
+
 
     # Invalid command
     else:
