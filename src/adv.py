@@ -78,17 +78,16 @@ print(f"\nCurrent location: {player.current_room.name}.")
 print("\nYou see the following items:")
 player.current_room.print_items()
 
-# Initialize input loop
-
-
 # REPL loop
 while True:
     command = input("Your move >>> ")
     
+    # Quit
     if command == 'q':
         print("Thank you for playing")
         break
 
+    # Move
     elif command in ['n', 's', 'e', 'w']:
         print('-------------------------------')
         prev_room = player.current_room
@@ -101,10 +100,23 @@ while True:
             print("\nYou see the following items:")
             player.current_room.print_items()
 
+    # Check inventory
+    elif command in ['i', 'inventory']:
+        print("\nItems in your inventory:")
+        player.print_items()
+
+
+    # Get command
+    # [TODO]
+
+    # Invalid command
     else:
         print("""
 Invalid command.  Try one of these:
-Directions: n, s, e, w
-Actions: get [item in room], drop [item in player inventory]
+Move: n, s, e, w
+Check player inventory: i, inventory
 Exit the game: q
+Item actions: 
+    get [item in room] : Move item from room to player
+    drop [item in player inventory] : Move item from player to room
 """)

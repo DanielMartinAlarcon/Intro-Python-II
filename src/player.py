@@ -24,8 +24,8 @@ class Player:
         self.inventory.append(item)
 
     def print_items(self):
-        if len(self.item_list) == 0:
-            print('[Nothing]')
+        if len(self.inventory) == 0:
+            print('[Nothing]\n')
         else: 
             for item in self.inventory:
                 print(f"{item.name}: {item.description}")
