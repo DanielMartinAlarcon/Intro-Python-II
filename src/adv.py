@@ -1,4 +1,7 @@
 from room import Room
+import sys
+from player import Player
+import textwrap 
 
 # Declare all the rooms
 
@@ -23,7 +26,6 @@ earlier adventurers. The only exit is to the south."""),
 
 
 # Link rooms together
-
 room['outside'].n_to = room['foyer']
 room['foyer'].s_to = room['outside']
 room['foyer'].n_to = room['overlook']
@@ -33,6 +35,12 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# Printing function for long descriptions, with text wrapping
+def print_description(desc):
+    wrapper = textwrap.TextWrapper(width=50) 
+    word_list = wrapper.wrap(text=desc) 
+    for element in word_list: 
+        print(element) 
 #
 # Main
 #
@@ -49,27 +57,22 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-import sys
-from player import Player
-import textwrap 
 
-# Initialize the current room
-player = Player(room['outside'])
+
+# Intro message
 print("\n<< Welcome to The Adventure Game. >>\n")
-print('Enter cardinal directions to move, or "q" to exit the game.')
-print(f"\nCurrent location: {player.current_room.name}.\n")
+print('Enter cardinal directions to move, or any other key to exit the game.')
 
-# Printing function for long descriptions, with text wrapping
-def print_description(desc):
-    wrapper = textwrap.TextWrapper(width=50) 
-    word_list = wrapper.wrap(text=desc) 
-    for element in word_list: 
-        print(element) 
+# Initialize player
+name = input("What is your name, traveler? ")
+player = Player(name=name, starting_room=room['outside'])
+print(f"\nWelcome, {name}")
+print(f"\nCurrent location: {player.current_room.name}.\n")
 
 # Initialize input loop
 direction = input("Which direction do you move? (n, s, e, or w) ")
 
-# Loop that updates the current room using usir inputs. Any input
+# Input loop that updates the current room using usir inputs. Any input
 # other than the cardinal directions exits the program.
 while direction in ['n', 's', 'e', 'w']:
     print('-------------------------------')
