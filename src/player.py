@@ -5,6 +5,7 @@ class Player:
     def __init__(self, name, starting_room):
         self.name = name
         self.current_room = starting_room
+        self.inventory = []
 
     def move(self, direction):
             room_map = {
@@ -17,3 +18,14 @@ class Player:
                 print('There is nothing in that direction.')
             else: 
                 self.current_room = room_map[direction]
+
+    
+    def add_item(self, item):
+        self.inventory.append(item)
+
+    def print_items(self):
+        if len(self.item_list) == 0:
+            print('[Nothing]')
+        else: 
+            for item in self.inventory:
+                print(f"{item.name}: {item.description}")

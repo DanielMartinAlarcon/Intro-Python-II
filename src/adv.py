@@ -1,6 +1,7 @@
 from room import Room
 import sys
 from player import Player
+from item import Item
 import textwrap 
 
 # Declare all the rooms
@@ -35,6 +36,10 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# Add some items
+room['foyer'].add_item(Item('Greatsword',"Like the good sword, but better"))
+room['foyer'].add_item(Item('Morningstar',"A spiky ball of iron on a stick"))
+
 # Printing function for long descriptions, with text wrapping
 def print_description(desc):
     wrapper = textwrap.TextWrapper(width=50) 
@@ -59,6 +64,8 @@ def print_description(desc):
 # If the user enters "q", quit the game.
 
 
+
+
 # Intro message
 print("\n<< Welcome to The Adventure Game. >>\n")
 print('Enter cardinal directions to move, or any other key to exit the game.')
@@ -67,10 +74,12 @@ print('Enter cardinal directions to move, or any other key to exit the game.')
 name = input("What is your name, traveler? ")
 player = Player(name=name, starting_room=room['outside'])
 print(f"\nWelcome, {name}")
-print(f"\nCurrent location: {player.current_room.name}.\n")
+print(f"\nCurrent location: {player.current_room.name}.")
+print("\nYou see the following items:")
+player.current_room.print_items()
 
 # Initialize input loop
-direction = input("Which direction do you move? (n, s, e, or w) ")
+direction = input("\nWhich direction do you move? (n, s, e, or w) ")
 
 # Input loop that updates the current room using usir inputs. Any input
 # other than the cardinal directions exits the program.
@@ -83,5 +92,7 @@ while direction in ['n', 's', 'e', 'w']:
     if player.current_room != prev_room:
         print(f"\nYou move into: {player.current_room.name}\n")
         print_description(player.current_room.description)
+        print("\nYou see the following items:")
+        player.current_room.print_items()
     
     direction = input("\nWhich direction do you move? (n, s, e, or w) ")
