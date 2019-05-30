@@ -9,20 +9,20 @@ class Room:
         self.s_to = None
         self.e_to = None
         self.w_to = None
-        self.inventory = []
+        self.inventory = {}
 
     def add_item(self, item):
-        self.inventory.append(item)
+        self.inventory[item.name] = item
 
-    def drop_item(self, item):
-        self.inventory.remove(item)
-
+    def remove_item(self, item):
+        self.inventory.pop(item.name)
+        
     def print_items(self):
         if len(self.inventory) == 0:
             print('[Nothing]\n')
         else: 
-            for item in self.inventory:
-                print(f"{item.name}: {item.description}")
+            for k, v in self.inventory.items():
+                print(f"{v.name}: {v.description}")
             print()
 
     

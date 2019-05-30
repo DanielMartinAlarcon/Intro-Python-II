@@ -5,7 +5,7 @@ class Player:
     def __init__(self, name, starting_room):
         self.name = name
         self.current_room = starting_room
-        self.inventory = []
+        self.inventory = {}
 
     def move(self, direction):
             room_map = {
@@ -19,17 +19,16 @@ class Player:
             else: 
                 self.current_room = room_map[direction]
 
-    
-    def add_item(self, item):
-        self.inventory.append(item)
+    def get_item(self, item):
+        self.inventory[item.name] = item
 
     def drop_item(self, item):
-        self.inventory.remove(item)
+        self.inventory.pop(item.name)
 
     def print_items(self):
         if len(self.inventory) == 0:
             print('[Nothing]\n')
         else: 
-            for item in self.inventory:
-                print(f"{item.name}: {item.description}")
+            for k, v in self.inventory.items():
+                print(f"{v.name}: {v.description}")
             print()

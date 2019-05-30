@@ -37,8 +37,9 @@ room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 # Add some items
-room['foyer'].add_item(Item('Greatsword',"Like the good sword, but better"))
-room['foyer'].add_item(Item('Morningstar',"A spiky ball of iron on a stick"))
+room['outside'].add_item(Item('Greatsword',"Like the good sword, but better"))
+room['outside'].add_item(Item('Morningstar',"A spiky ball of iron on a stick"))
+room['foyer'].add_item(Item('Gold',"Shiny gold coins!"))
 
 # Printing function for long descriptions, with text wrapping
 def print_description(desc):
@@ -77,7 +78,7 @@ print(f"\nWelcome, {name}")
 print(f"\nCurrent location: {player.current_room.name}.")
 print("\nYou see the following items:")
 player.current_room.print_items()
-player.add_item(Item("sword","Nothing fancy, but it's sharp."))
+player.get_item(Item("sword","Nothing fancy, but it's sharp."))
 
 # REPL loop
 while True:
@@ -105,12 +106,37 @@ while True:
         print("\nItems in your inventory:")
         player.print_items()
 
+    # Look around the room
+    elif command in ['l', 'look']:
+        print("\nYou see the following items:")
+        player.current_room.print_items()
 
-    # Get command
-    elif command.split(' ')[0] == 'get':
+
+    # Get/Take command
+    elif command.split(' ')[0] in ['get','take']:
         item_name = command.split(' ')[1]
-        room_items = [item.name for item in player.current_room.inventory]
-        
+        room_items = player.current_room.inventory.keys()
+        if item_name in room_items:
+            item = player.current_room.inventory[item_name]
+            item.on_take()
+            player.get_item(item)
+            player.current_room.remove_item(item)
+        else:
+            print("You can only pick up the items that are in this room:\n")
+            player.current_room.print_items()
+
+    # Drop command
+    elif command.split(' ')[0] == 'drop':
+        item_name = command.split(' ')[1]
+        player_items = player.inventory.keys()
+        if item_name in player_items:
+            item = player.inventory[item_name]
+            item.on_drop()
+            player.drop_item(item)
+            player.current_room.add_item(item)
+        else:
+            print("You can only drop items that are in your inventory:\n")
+            player.print_items()
 
 
     # Invalid command
@@ -119,8 +145,10 @@ while True:
 Invalid command.  Try one of these:
 Move: n, s, e, w
 Check player inventory: i, inventory
+Check room contents: l, look
 Exit the game: q
 Item actions: 
+    take [item in room] : Move item from room to player
     get [item in room] : Move item from room to player
     drop [item in player inventory] : Move item from player to room
 """)
